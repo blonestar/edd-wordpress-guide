@@ -5,10 +5,13 @@ import {
   officialLinks,
   playwrightExample,
   promptfooExample,
+  promptfooQuickstart,
   repoLayout,
+  workedExampleCommands,
 } from "../content/shared";
 import type { GuideCopy } from "../content/types";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   copy: GuideCopy;
@@ -43,9 +46,9 @@ const localeLinks = locales.map((locale) => ({
 
     <nav aria-label={copy.nav.label}>
       <a href="#basics">{copy.nav.basics}</a>
+      <a href="#worked-example">{copy.nav.example}</a>
       <a href="#tools">{copy.nav.tools}</a>
-      <a href="#architecture">{copy.nav.architecture}</a>
-      <a href="#start">{copy.nav.start}</a>
+      <a href="#promptfoo">{copy.nav.promptfoo}</a>
     </nav>
 
     <div class="header-actions">
@@ -89,7 +92,9 @@ const localeLinks = locales.map((locale) => ({
                 >
                   <span>{locale.name}</span>
                   {locale.current && (
-                    <span class="language-current-mark" aria-hidden="true">✓</span>
+                    <span class="language-current-mark" aria-hidden="true">
+                      <Icon name="check" />
+                    </span>
                   )}
                 </a>
               </li>
@@ -115,15 +120,15 @@ const localeLinks = locales.map((locale) => ({
         </h1>
         <p class="hero-lede">{copy.hero.lede}</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#architecture">
+          <a class="button button-primary" href="#worked-example">
             {copy.hero.primaryCta}
           </a>
-          <a class="button button-secondary" href="#examples">
+          <a class="button button-secondary" href="#setup">
             {copy.hero.secondaryCta}
           </a>
         </div>
         <div class="hero-note">
-          <span class="note-icon" aria-hidden="true">✓</span>
+          <span class="note-icon" aria-hidden="true"><Icon name="check" /></span>
           <p>
             {copy.hero.notePrefix} <strong>{copy.hero.noteStrong}</strong>
             {copy.hero.noteSuffix}
@@ -207,11 +212,120 @@ const localeLinks = locales.map((locale) => ({
                 <strong>{step.text}</strong>
               </div>
               {index < copy.basics.loop.length - 1 && (
-                <i aria-hidden="true">{index === 3 ? "↺" : "→"}</i>
+                <i
+                  class:list={[
+                    "loop-connector",
+                    index === 3 ? "loop-refresh" : "loop-arrow",
+                  ]}
+                  aria-hidden="true"
+                >
+                  <Icon name={index === 3 ? "refresh" : "arrow-right"} />
+                </i>
               )}
             </>
           ))
         }
+      </div>
+    </section>
+
+    <section
+      class="section glossary-section"
+      id="glossary"
+      aria-labelledby="glossary-title"
+    >
+      <div class="split-heading">
+        <div>
+          <p class="section-kicker">{copy.glossary.kicker}</p>
+          <h2 id="glossary-title">{copy.glossary.title}</h2>
+        </div>
+        <p>{copy.glossary.intro}</p>
+      </div>
+
+      <dl class="glossary-list">
+        {
+          copy.glossary.items.map((item) => (
+            <div>
+              <dt>{item.term}</dt>
+              <dd>
+                <p>{item.definition}</p>
+                <small>
+                  <strong>{copy.glossary.analogyLabel}</strong> {item.analogy}
+                </small>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section
+      class="section worked-example-section"
+      id="worked-example"
+      aria-labelledby="worked-example-title"
+    >
+      <div class="section-heading inverse">
+        <p class="section-kicker">{copy.workedExample.kicker}</p>
+        <h2 id="worked-example-title">{copy.workedExample.title}</h2>
+        <p>{copy.workedExample.intro}</p>
+      </div>
+
+      <div class="scenario-banner">
+        <span>{copy.workedExample.scenarioLabel}</span>
+        <p>{copy.workedExample.scenario}</p>
+      </div>
+
+      <ol class="worked-steps">
+        {
+          copy.workedExample.steps.map((step) => (
+            <li>
+              <span>{step.number}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+                <code>{step.detail}</code>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="worked-code-grid">
+        <article class="code-panel">
+          <div class="code-panel-head">
+            <span>{copy.workedExample.codeTitle}</span>
+            <small>{copy.workedExample.codeMeta}</small>
+          </div>
+          <pre aria-label={copy.workedExample.codeAria}><code>{playwrightExample}</code></pre>
+        </article>
+
+        <article class="worked-run-card">
+          <pre><code>{workedExampleCommands}</code></pre>
+          <div class="run-state fail">
+            <span>{copy.workedExample.firstRunLabel}</span>
+            <strong>{copy.workedExample.firstRunTitle}</strong>
+            <p>{copy.workedExample.firstRunText}</p>
+          </div>
+          <div class="run-state pass">
+            <span>{copy.workedExample.finalRunLabel}</span>
+            <strong>{copy.workedExample.finalRunTitle}</strong>
+            <p>{copy.workedExample.finalRunText}</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="evidence-rail">
+        <strong>{copy.workedExample.evidenceLabel}</strong>
+        <ul>
+          {copy.workedExample.evidence.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div class="worked-takeaway">
+        <span aria-hidden="true"><Icon name="check" /></span>
+        <p>
+          <strong>{copy.workedExample.takeawayLabel}</strong>{" "}
+          {copy.workedExample.takeaway}
+        </p>
       </div>
     </section>
 
@@ -269,7 +383,7 @@ const localeLinks = locales.map((locale) => ({
             <>
               <span>{step}</span>
               {index < copy.graders.ladder.length - 1 && (
-                <i aria-hidden="true">→</i>
+                <i aria-hidden="true"><Icon name="arrow-right" /></i>
               )}
             </>
           ))
@@ -303,7 +417,7 @@ const localeLinks = locales.map((locale) => ({
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                {tool.linkLabel}<span class="external-mark" aria-hidden="true">↗</span>
+                {tool.linkLabel}<Icon name="external" class="external-mark" />
               </a>
             </article>
           ))
@@ -311,171 +425,7 @@ const localeLinks = locales.map((locale) => ({
       </div>
     </section>
 
-    <section
-      class="section section-dark"
-      id="architecture"
-      aria-labelledby="architecture-title"
-    >
-      <div class="section-heading inverse">
-        <p class="section-kicker">{copy.architecture.kicker}</p>
-        <h2 id="architecture-title">{copy.architecture.title}</h2>
-        <p>{copy.architecture.intro}</p>
-      </div>
-
-      <div class="architecture-diagram">
-        <div class="architecture-column local">
-          <div class="architecture-title">
-            <span>{copy.architecture.local.badge}</span>
-            <h3>{copy.architecture.local.title}</h3>
-            <p>{copy.architecture.local.intro}</p>
-          </div>
-          <div class="architecture-stack">
-            {
-              copy.architecture.local.items.map((item) => (
-                <div>
-                  <span>{item.number}</span>
-                  <strong>{item.title}</strong>
-                  <small>{item.text}</small>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        <div class="architecture-bridge" aria-hidden="true">
-          <span>{copy.architecture.bridge[0]}</span>
-          <i>⇄</i>
-          <span>{copy.architecture.bridge[1]}</span>
-        </div>
-
-        <div class="architecture-column central">
-          <div class="architecture-title">
-            <span>{copy.architecture.central.badge}</span>
-            <h3>{copy.architecture.central.title}</h3>
-            <p>{copy.architecture.central.intro}</p>
-          </div>
-          <div class="architecture-stack">
-            {
-              copy.architecture.central.items.map((item) => (
-                <div>
-                  <span>{item.number}</span>
-                  <strong>{item.title}</strong>
-                  <small>{item.text}</small>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="architecture-rule">
-        <span aria-hidden="true">!</span>
-        <p>
-          <strong>{copy.architecture.ruleLabel}</strong> {copy.architecture.rule}
-        </p>
-      </div>
-    </section>
-
-    <section
-      class="section"
-      id="promptfoo"
-      aria-labelledby="promptfoo-title"
-    >
-      <div class="split-heading">
-        <div>
-          <p class="section-kicker">{copy.promptfoo.kicker}</p>
-          <h2 id="promptfoo-title">{copy.promptfoo.title}</h2>
-        </div>
-        <p>{copy.promptfoo.intro}</p>
-      </div>
-
-      <div class="promptfoo-flow" role="img" aria-label={copy.promptfoo.flowLabel}>
-        <div class="promptfoo-inputs">
-          {copy.promptfoo.inputs.map((item) => <span>{item}</span>)}
-        </div>
-        <i aria-hidden="true">→</i>
-        <div class="promptfoo-core">
-          <small>{copy.promptfoo.coreOverline}</small>
-          <strong>Promptfoo</strong>
-          <span>{copy.promptfoo.coreText}</span>
-        </div>
-        <i aria-hidden="true">→</i>
-        <div class="promptfoo-graders">
-          {copy.promptfoo.graders.map((item) => <span>{item}</span>)}
-        </div>
-        <i aria-hidden="true">→</i>
-        <div class="promptfoo-result">
-          <small>{copy.promptfoo.resultOverline}</small>
-          <strong>{copy.promptfoo.resultTitle}</strong>
-          <span>{copy.promptfoo.resultText}</span>
-        </div>
-      </div>
-
-      <div class="when-grid">
-        <article class="when-card yes">
-          <span class="when-label">{copy.promptfoo.yesLabel}</span>
-          <ul>{copy.promptfoo.yes.map((item) => <li>{item}</li>)}</ul>
-        </article>
-        <article class="when-card no">
-          <span class="when-label">{copy.promptfoo.noLabel}</span>
-          <ul>{copy.promptfoo.no.map((item) => <li>{item}</li>)}</ul>
-        </article>
-      </div>
-
-      <aside class="caution-card">
-        <span aria-hidden="true">{copy.promptfoo.cautionLabel}</span>
-        <p>
-          {copy.promptfoo.cautionBefore}{" "}
-          <strong>{copy.promptfoo.cautionStrong}</strong>
-          {copy.promptfoo.cautionAfter}
-        </p>
-        <a
-          href={officialLinks.promptfooAgents}
-          class="text-link"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          {copy.promptfoo.cautionLink}<span class="external-mark" aria-hidden="true">↗</span>
-        </a>
-      </aside>
-    </section>
-
-    <section class="section section-tinted" id="mcp" aria-labelledby="mcp-title">
-      <div class="section-heading">
-        <p class="section-kicker">{copy.mcp.kicker}</p>
-        <h2 id="mcp-title">{copy.mcp.title}</h2>
-        <p>{copy.mcp.intro}</p>
-      </div>
-
-      <div class="mcp-grid">
-        <article>
-          <div class="mcp-card-head good">
-            <span aria-hidden="true">+</span>
-            <h3>{copy.mcp.yesTitle}</h3>
-          </div>
-          <ul>{copy.mcp.yes.map((item) => <li>{item}</li>)}</ul>
-        </article>
-        <article>
-          <div class="mcp-card-head bad">
-            <span aria-hidden="true">−</span>
-            <h3>{copy.mcp.noTitle}</h3>
-          </div>
-          <ul>{copy.mcp.no.map((item) => <li>{item}</li>)}</ul>
-        </article>
-      </div>
-      <p class="source-note">
-        {copy.mcp.sourcePrefix}{" "}
-        <a
-          href={officialLinks.mcp}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          {copy.mcp.sourceLink}<span class="external-mark" aria-hidden="true">↗</span>
-        </a>.
-      </p>
-    </section>
-
-    <section class="section" id="examples" aria-labelledby="repo-title">
+    <section class="section section-tinted" id="setup" aria-labelledby="repo-title">
       <div class="split-heading">
         <div>
           <p class="section-kicker">{copy.setup.kicker}</p>
@@ -512,6 +462,10 @@ const localeLinks = locales.map((locale) => ({
           <summary>
             <span>{copy.setup.examples.playwrightTitle}</span>
             <small>{copy.setup.examples.deterministic}</small>
+            <span class="summary-icons" aria-hidden="true">
+              <Icon name="plus" class="summary-plus" />
+              <Icon name="minus" class="summary-minus" />
+            </span>
           </summary>
           <pre><code>{playwrightExample}</code></pre>
           <p>{copy.setup.examples.playwrightNote}</p>
@@ -521,6 +475,10 @@ const localeLinks = locales.map((locale) => ({
           <summary>
             <span>{copy.setup.examples.lighthouseTitle}</span>
             <small>{copy.setup.examples.labSignal}</small>
+            <span class="summary-icons" aria-hidden="true">
+              <Icon name="plus" class="summary-plus" />
+              <Icon name="minus" class="summary-minus" />
+            </span>
           </summary>
           <pre><code>{lighthouseExample}</code></pre>
           <p>{copy.setup.examples.lighthouseNote}</p>
@@ -530,6 +488,10 @@ const localeLinks = locales.map((locale) => ({
           <summary>
             <span>{copy.setup.examples.promptfooTitle}</span>
             <small>{copy.setup.examples.later}</small>
+            <span class="summary-icons" aria-hidden="true">
+              <Icon name="plus" class="summary-plus" />
+              <Icon name="minus" class="summary-minus" />
+            </span>
           </summary>
           <pre><code>{promptfooExample}</code></pre>
           <p>{copy.setup.examples.promptfooNote}</p>
@@ -538,7 +500,7 @@ const localeLinks = locales.map((locale) => ({
     </section>
 
     <section
-      class="section section-tinted"
+      class="section"
       id="start"
       aria-labelledby="start-title"
     >
@@ -564,11 +526,284 @@ const localeLinks = locales.map((locale) => ({
       </ol>
 
       <div class="stop-rule">
-        <span aria-hidden="true">◆</span>
+        <span aria-hidden="true"><Icon name="alert" /></span>
         <p>
           <strong>{copy.phases.thresholdLabel}</strong> {copy.phases.threshold}
         </p>
       </div>
+    </section>
+
+    <section
+      class="section section-dark"
+      id="architecture"
+      aria-labelledby="architecture-title"
+    >
+      <div class="section-heading inverse">
+        <p class="section-kicker">{copy.architecture.kicker}</p>
+        <h2 id="architecture-title">{copy.architecture.title}</h2>
+        <p>{copy.architecture.intro}</p>
+      </div>
+
+      <div class="architecture-diagram">
+        <div class="architecture-column local">
+          <div class="architecture-title">
+            <span>{copy.architecture.local.badge}</span>
+            <h3>{copy.architecture.local.title}</h3>
+            <p>{copy.architecture.local.intro}</p>
+          </div>
+          <div class="architecture-stack">
+            {
+              copy.architecture.local.items.map((item) => (
+                <div>
+                  <span>{item.number}</span>
+                  <strong>{item.title}</strong>
+                  <small>{item.text}</small>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="architecture-bridge" aria-hidden="true">
+          <div class="bridge-lane bridge-bundle">
+            <i><Icon name="arrow-right" /></i>
+            <span>{copy.architecture.bridge[0]}</span>
+          </div>
+          <div class="bridge-lane bridge-results">
+            <span>{copy.architecture.bridge[1]}</span>
+            <i><Icon name="arrow-right" /></i>
+          </div>
+        </div>
+
+        <div class="architecture-column central">
+          <div class="architecture-title">
+            <span>{copy.architecture.central.badge}</span>
+            <h3>{copy.architecture.central.title}</h3>
+            <p>{copy.architecture.central.intro}</p>
+          </div>
+          <div class="architecture-stack">
+            {
+              copy.architecture.central.items.map((item) => (
+                <div>
+                  <span>{item.number}</span>
+                  <strong>{item.title}</strong>
+                  <small>{item.text}</small>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="architecture-rule">
+        <span aria-hidden="true"><Icon name="alert" /></span>
+        <p>
+          <strong>{copy.architecture.ruleLabel}</strong> {copy.architecture.rule}
+        </p>
+      </div>
+    </section>
+
+    <section
+      class="section"
+      id="promptfoo"
+      aria-labelledby="promptfoo-title"
+    >
+      <div class="split-heading">
+        <div>
+          <p class="section-kicker">{copy.promptfoo.kicker}</p>
+          <h2 id="promptfoo-title">{copy.promptfoo.title}</h2>
+        </div>
+        <p>{copy.promptfoo.intro}</p>
+      </div>
+
+      <div class="promptfoo-facts">
+        {
+          copy.promptfoo.facts.map((fact, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{fact.title}</h3>
+              <p>{fact.text}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="promptfoo-flow" role="img" aria-label={copy.promptfoo.flowLabel}>
+        <div class="promptfoo-inputs">
+          {copy.promptfoo.inputs.map((item) => <span>{item}</span>)}
+        </div>
+        <i aria-hidden="true"><Icon name="arrow-right" /></i>
+        <div class="promptfoo-core">
+          <small>{copy.promptfoo.coreOverline}</small>
+          <strong>Promptfoo</strong>
+          <span>{copy.promptfoo.coreText}</span>
+        </div>
+        <i aria-hidden="true"><Icon name="arrow-right" /></i>
+        <div class="promptfoo-graders">
+          {copy.promptfoo.graders.map((item) => <span>{item}</span>)}
+        </div>
+        <i aria-hidden="true"><Icon name="arrow-right" /></i>
+        <div class="promptfoo-result">
+          <small>{copy.promptfoo.resultOverline}</small>
+          <strong>{copy.promptfoo.resultTitle}</strong>
+          <span>{copy.promptfoo.resultText}</span>
+        </div>
+      </div>
+
+      <div class="promptfoo-practice-grid">
+        <article class="code-panel">
+          <div class="code-panel-head">
+            <span>{copy.promptfoo.quickstartTitle}</span>
+            <small>CLI</small>
+          </div>
+          <pre aria-label={copy.promptfoo.quickstartAria}><code>{promptfooQuickstart}</code></pre>
+          <p>{copy.promptfoo.quickstartIntro}</p>
+        </article>
+
+        <div class="promptfoo-surfaces">
+          <article>
+            <span>LOCAL</span>
+            <h3>{copy.promptfoo.localViewerTitle}</h3>
+            <p>{copy.promptfoo.localViewerText}</p>
+          </article>
+          <article>
+            <span>OPTIONAL CLOUD</span>
+            <h3>{copy.promptfoo.cloudTitle}</h3>
+            <p>{copy.promptfoo.cloudText}</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="promptfoo-links" aria-label={copy.promptfoo.quickstartTitle}>
+        <a
+          href={officialLinks.promptfooGettingStarted}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {copy.promptfoo.gettingStartedLink}<Icon name="external" class="external-mark" />
+        </a>
+        <a
+          href={officialLinks.promptfooViewer}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {copy.promptfoo.viewerLink}<Icon name="external" class="external-mark" />
+        </a>
+        <a
+          href={officialLinks.promptfooApp}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {copy.promptfoo.appLink}<Icon name="external" class="external-mark" />
+        </a>
+        <a
+          href={officialLinks.promptfooGithub}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {copy.promptfoo.githubLink}<Icon name="external" class="external-mark" />
+        </a>
+      </div>
+
+      <div class="controlled-experiment">
+        <span aria-hidden="true">1×</span>
+        <p>
+          <strong>{copy.promptfoo.controlledTitle}</strong>{" "}
+          {copy.promptfoo.controlledText}
+        </p>
+      </div>
+
+      <div class="when-grid">
+        <article class="when-card yes">
+          <span class="when-label">{copy.promptfoo.yesLabel}</span>
+          <ul>{copy.promptfoo.yes.map((item) => <li>{item}</li>)}</ul>
+        </article>
+        <article class="when-card no">
+          <span class="when-label">{copy.promptfoo.noLabel}</span>
+          <ul>{copy.promptfoo.no.map((item) => <li>{item}</li>)}</ul>
+        </article>
+      </div>
+
+      <aside class="caution-card">
+        <span aria-hidden="true">{copy.promptfoo.cautionLabel}</span>
+        <p>
+          {copy.promptfoo.cautionBefore}{" "}
+          <strong>{copy.promptfoo.cautionStrong}</strong>
+          {copy.promptfoo.cautionAfter}
+        </p>
+        <a
+          href={officialLinks.promptfooAgents}
+          class="text-link"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {copy.promptfoo.cautionLink}<Icon name="external" class="external-mark" />
+        </a>
+      </aside>
+    </section>
+
+    <section class="section section-tinted" id="mcp" aria-labelledby="mcp-title">
+      <div class="section-heading">
+        <p class="section-kicker">{copy.mcp.kicker}</p>
+        <h2 id="mcp-title">{copy.mcp.title}</h2>
+        <p>{copy.mcp.intro}</p>
+      </div>
+
+      <div class="mcp-grid">
+        <article>
+          <div class="mcp-card-head good">
+            <span aria-hidden="true"><Icon name="plus" /></span>
+            <h3>{copy.mcp.yesTitle}</h3>
+          </div>
+          <ul>{copy.mcp.yes.map((item) => <li>{item}</li>)}</ul>
+        </article>
+        <article>
+          <div class="mcp-card-head bad">
+            <span aria-hidden="true"><Icon name="minus" /></span>
+            <h3>{copy.mcp.noTitle}</h3>
+          </div>
+          <ul>{copy.mcp.no.map((item) => <li>{item}</li>)}</ul>
+        </article>
+      </div>
+      <p class="source-note">
+        {copy.mcp.sourcePrefix}{" "}
+        <a
+          href={officialLinks.mcp}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {copy.mcp.sourceLink}<Icon name="external" class="external-mark" />
+        </a>.
+      </p>
+    </section>
+
+    <section
+      class="section safety-section"
+      id="safety"
+      aria-labelledby="safety-title"
+    >
+      <div class="section-heading inverse">
+        <p class="section-kicker">{copy.safety.kicker}</p>
+        <h2 id="safety-title">{copy.safety.title}</h2>
+        <p>{copy.safety.intro}</p>
+      </div>
+
+      <div class="safety-grid">
+        {
+          copy.safety.items.map((item, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <aside class="limits-panel">
+        <h3>{copy.safety.limitsTitle}</h3>
+        <ul>{copy.safety.limits.map((item) => <li>{item}</li>)}</ul>
+      </aside>
     </section>
 
     <section class="section" aria-labelledby="pitfalls-title">
@@ -609,9 +844,15 @@ const localeLinks = locales.map((locale) => ({
             <label>
               <input type="checkbox" />
               <span class="custom-checkbox" aria-hidden="true"></span>
-              <span>
+              <span class="checklist-copy">
                 <small>{String(index + 1).padStart(2, "0")}</small>
-                {item}
+                <strong>{item.text}</strong>
+                <span class="checklist-meta">
+                  <em>{copy.checklist.toolLabel}</em> {item.tool}
+                </span>
+                <span class="checklist-meta">
+                  <em>{copy.checklist.evidenceLabel}</em> {item.evidence}
+                </span>
               </span>
             </label>
           ))
@@ -643,7 +884,7 @@ const localeLinks = locales.map((locale) => ({
                       target="_blank"
                       rel="noreferrer noopener"
                     >
-                      {link.label}<span class="external-mark" aria-hidden="true">↗</span>
+                      {link.label}<Icon name="external" class="external-mark" />
                     </a>
                   </li>
                 ))}

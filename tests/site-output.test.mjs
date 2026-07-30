@@ -12,31 +12,31 @@ const pages = [
     path: "index.html",
     lang: "en",
     title: "Eval-Driven Development for AI-Assisted WordPress Themes",
-    heading: "AI writes the code.",
+    heading: "AI can change your theme.",
   },
   {
     path: "sr-latn/index.html",
     lang: "sr-Latn",
     title: "Eval-Driven Development za AI-assisted WordPress teme",
-    heading: "AI piše kod.",
+    heading: "AI može da promeni temu.",
   },
   {
     path: "sr-cyrl/index.html",
     lang: "sr-Cyrl",
     title: "Eval-Driven Development за AI-assisted WordPress теме",
-    heading: "AI пише код.",
+    heading: "AI може да промени тему.",
   },
   {
     path: "be/index.html",
     lang: "be",
-    title: "EDD для WordPress-тэм з дапамогай ШІ",
-    heading: "ШІ піша код.",
+    title: "Eval-Driven Development для WordPress-тэм з дапамогай ШІ",
+    heading: "ШІ можа змяніць вашу тэму.",
   },
   {
     path: "ru/index.html",
     lang: "ru",
-    title: "EDD для AI-assisted WordPress-тем",
-    heading: "ИИ пишет код.",
+    title: "Eval-Driven Development для AI-assisted WordPress-тем",
+    heading: "AI может изменить вашу тему.",
   },
 ];
 
@@ -55,7 +55,12 @@ test("build emits five fully localized static pages", async () => {
     assert.ok(html.includes(`${base}be/`));
     assert.ok(html.includes(`${base}ru/`));
     assert.ok(html.includes("https://playwright.dev/docs/writing-tests"));
-    assert.ok(html.includes("https://modelcontextprotocol.io/docs/learn/architecture"));
+    assert.ok(html.includes("https://www.promptfoo.dev/docs/getting-started/"));
+    assert.ok(html.includes("https://www.promptfoo.dev/docs/usage/web-ui/"));
+    assert.ok(html.includes("https://promptfoo.app/"));
+    assert.ok(
+      html.includes("https://modelcontextprotocol.io/docs/learn/architecture"),
+    );
     assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
   }
 });
@@ -94,5 +99,7 @@ test("project no longer depends on Next, Vinext, React, or a custom exporter", a
   assert.equal(packageJson.dependencies.react, undefined);
   assert.equal(packageJson.dependencies.vinext, undefined);
   assert.equal(packageJson.scripts["export:static"], undefined);
-  await access(join(new URL("../", import.meta.url).pathname, "astro.config.mjs"));
+  await access(
+    join(new URL("../", import.meta.url).pathname, "astro.config.mjs"),
+  );
 });

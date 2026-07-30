@@ -20,9 +20,9 @@ export const srLatn = {
   nav: {
     label: "Glavna navigacija",
     basics: "Osnove",
+    example: "Prvi eval",
     tools: "Alati",
-    architecture: "Arhitektura",
-    start: "Start",
+    promptfoo: "Promptfoo",
     checklist: "Checklista",
   },
   languageMenu: {
@@ -30,27 +30,30 @@ export const srLatn = {
     current: "Jezik",
   },
   hero: {
-    eyebrow: "Beginner-friendly vodič · 2026",
-    titleLine1: "AI piše kod.",
-    titleLine2: "Evali dokazuju da radi.",
-    lede:
-      "Kako da uvedeš Eval-Driven Development u izradu custom WordPress teme — bez pravljenja novog frameworka, bez MCP-a tamo gde nije potreban i bez oslanjanja na „deluje dobro“.",
-    primaryCta: "Vidi preporučenu arhitekturu",
-    secondaryCta: "Otvori primere",
-    notePrefix: "Preporuka u jednoj rečenici:",
-    noteStrong: "testovi uz projekat",
+    eyebrow: "Za WordPress developere koji uvode AI agente · 2026",
+    titleLine1: "AI može da promeni temu.",
+    titleLine2: "Evali odlučuju šta je bezbedno zadržati.",
+    lede: "Praktičan uvod u Eval-Driven Development za iskusne WordPress developere koji su novi u AI evalima: definiši kvar, ponovi ga lokalno i traži od agenta nezavisan dokaz pre nego što prihvatiš izmenu.",
+    primaryCta: "Vidi prvi kompletan eval",
+    secondaryCta: "Napravi lokalni harness",
+    notePrefix: "Preporučeni početak:",
+    noteStrong: "project-specific testove drži uz temu",
     noteSuffix:
-      ", jedan lokalni eval command i opcioni Promptfoo tek za poređenje agenata.",
+      ", lokalno seeduj kontrolisan WordPress sadržaj i daj agentu jednu komandu koju mora da prođe pre nego što prijavi da je završio.",
     visualLabel: "Tok Eval-Driven Development procesa",
     flowCards: [
-      { number: "01", title: "Zadatak", text: "jasan intent" },
-      { number: "02", title: "AI agent", text: "menja temu" },
-      { number: "03", title: "Eval harness", text: "pokreće gradere" },
-      { number: "04", title: "Dokaz", text: "pass / fail + artifacts" },
+      { number: "01", title: "Zahtev za izmenu", text: "vidljivo ponašanje" },
+      { number: "02", title: "AI agent", text: "menja izolovanu kopiju" },
+      {
+        number: "03",
+        title: "Lokalni harness",
+        text: "pokreće nezavisne provere",
+      },
+      { number: "04", title: "Dokaz", text: "pass / fail + razlog" },
     ],
     core: "EDD",
     coreText: "merljivo\n„gotovo“",
-    caption: "Implementiraj → proveri → popravi → ponovi",
+    caption: "Definiši → implementiraj → proveri → popravi → ponovi",
   },
   signals: {
     label: "Ključni principi",
@@ -64,8 +67,8 @@ export const srLatn = {
         text: "trace, log ili screenshot",
       },
       {
-        title: "Agent ne menja kriterijum",
-        text: "eval ostaje nezavisan",
+        title: "Zaštiti kriterijum",
+        text: "agent ne pomera cilj",
       },
     ],
   },
@@ -105,6 +108,123 @@ export const srLatn = {
       { number: "5", text: "Popravi uzrok" },
     ],
   },
+  glossary: {
+    kicker: "Pre dodatnih alata",
+    title: "Osam pojmova koji olakšavaju ostatak vodiča",
+    intro:
+      "WordPress kod ostaje poznat. Ovo su novi termini koji opisuju kako se AI izmena meri, poredi i objašnjava.",
+    analogyLabel: "WordPress analogija:",
+    items: [
+      {
+        term: "Eval",
+        definition:
+          "Ponovljiva provera definisanog ishoda iz poznatog početnog stanja.",
+        analogy: "acceptance test sa eksplicitnim scenarijem i paketom dokaza.",
+      },
+      {
+        term: "Case",
+        definition:
+          "Jedan scenario u suite-u: ruta, fixture, viewport, stanje korisnika i očekivanje.",
+        analogy: "jedna test metoda ili pažljivo ograničena QA reprodukcija.",
+      },
+      {
+        term: "Fixture",
+        definition:
+          "Kontrolisan sadržaj ili konfiguracija koja kvar čini ponovljivim.",
+        analogy:
+          "WP-CLI seedovan post, meni, korisnik, opcija ili prazno ACF stanje.",
+      },
+      {
+        term: "Grader",
+        definition:
+          "Nezavisan mehanizam koji određuje pass, fail ili ograničen score.",
+        analogy:
+          "Playwright assertion, PHPCS exit code, axe pravilo ili odobren diff.",
+      },
+      {
+        term: "Evidence",
+        definition:
+          "Činjenica koja objašnjava rezultat: vrednost, trace, log, screenshot ili izveštaj.",
+        analogy: "artifact koji reviewer otvara da razume zašto je CI pao.",
+      },
+      {
+        term: "Baseline",
+        definition:
+          "Poznat početni rezultat ili nepromenjena konfiguracija za poređenje.",
+        analogy: "odobren screenshot ili trenutna prompt/model kombinacija.",
+      },
+      {
+        term: "Harness",
+        definition:
+          "Tanak projektni sloj koji priprema stanje, pokreće postojeće alate i prikuplja rezultate.",
+        analogy: "npm scripts plus WP-CLI setup, a ne zamena za same alate.",
+      },
+      {
+        term: "Kontrolisani eksperiment",
+        definition:
+          "Poređenje u kome zadaci i graderi ostaju isti dok se menja jedna promenljiva.",
+        analogy:
+          "promeni prompt ili model, ne oba, pa tek onda uporedi rezultat.",
+      },
+    ],
+  },
+  workedExample: {
+    kicker: "Worked example · jedno ponašanje, jedan dokazni put",
+    title: "Pretvori „napravi pristupačan mobilni meni” u ponovljiv eval",
+    intro:
+      "Ovaj primer povezuje PHP/HTML output, JavaScript ponašanje, responsive layout i keyboard accessibility. WordPress priprema stanje, Playwright izvršava ponašanje, a browser daje dokaz.",
+    scenarioLabel: "Zadatak",
+    scenario:
+      "Implementiraj mobilnu navigaciju koja se otvara preko dugmeta, radi tastaturom, zatvara na Escape, pravilno vraća fokus i ne stvara horizontalni scroll.",
+    steps: [
+      {
+        number: "A",
+        title: "Zaključaj ulaz",
+        text: "Koristi homepage, viewport 375 × 812, odjavljenog korisnika i seedovan meni sa dugom stavkom drugog nivoa.",
+        detail: "fixture: mobile-menu-edge-case",
+      },
+      {
+        number: "B",
+        title: "Navedi očekivanje",
+        text: "Dugme ima accessible name; meni se otvara; Escape ga zatvara; fokus se vraća; nema novih console grešaka ni overflowa.",
+        detail: "expected: sedam vidljivih uslova",
+      },
+      {
+        number: "C",
+        title: "Izaberi grader",
+        text: "Koristi fokusirane Playwright assertions i mali DOM helper za overflow. Axe dodaj kada je sama interakcija stabilna.",
+        detail: "grader: Playwright + DOM assertion",
+      },
+      {
+        number: "D",
+        title: "Sačuvaj koristan dokaz",
+        text: "Na fail-u sačuvaj assertion, trace, screenshot, console log, viewport, fixture i verzije runtime-a.",
+        detail: "evidence: objašnjiv, ne samo crven",
+      },
+    ],
+    codeTitle: "Fokusirani browser case",
+    codeMeta: "tests/e2e/mobile-navigation.spec.ts",
+    codeAria: "Playwright primer za mobilnu navigaciju",
+    firstRunLabel: "BASELINE",
+    firstRunTitle: "Poznat kvar je reprodukovan",
+    firstRunText:
+      "Prvi run treba da padne zbog stvarnog pokvarenog ponašanja. Ako test ne vidi bug, eval još nije spreman.",
+    finalRunLabel: "CANDIDATE",
+    finalRunTitle: "Fokusirani case i full suite prolaze",
+    finalRunText:
+      "Pregledaj stvarni browser dokaz, pa pokreni širi suite pre prihvatanja izmene.",
+    evidenceLabel: "Sačuvaj na fail-u",
+    evidence: [
+      "assertion vrednost",
+      "Playwright trace",
+      "failure screenshot",
+      "console log",
+      "fixture + viewport",
+    ],
+    takeawayLabel: "Ključna ideja:",
+    takeaway:
+      "eval nije samo Playwright fajl; čine ga kontrolisan ulaz, navedeno očekivanje, nezavisan grader i dokaz.",
+  },
   graders: {
     kicker: "Pravilo izbora",
     title: "Najjeftiniji grader koji pouzdano vidi grešku",
@@ -141,12 +261,7 @@ export const srLatn = {
       example: "Oceni samo spacing i alignment 0–5.",
     },
     ladderLabel: "Redosled izbora gradera",
-    ladder: [
-      "assertion",
-      "postojeći alat",
-      "custom skripta",
-      "model rubrika",
-    ],
+    ladder: ["assertion", "postojeći alat", "custom skripta", "model rubrika"],
   },
   tools: {
     kicker: "02 · Alati",
@@ -180,8 +295,7 @@ export const srLatn = {
         name: "PHPCS + WPCS",
         tone: "amber",
         use: "WordPress coding konvencije, escaping upozorenja, internacionalizacija i ponovljive provere PHP koda.",
-        notFor:
-          "Prolazak standarda ne znači da je poslovna logika ispravna.",
+        notFor: "Prolazak standarda ne znači da je poslovna logika ispravna.",
         link: officialLinks.wpcs,
         linkLabel: "WordPress PHP standardi",
       },
@@ -238,7 +352,7 @@ export const srLatn = {
     ],
   },
   architecture: {
-    kicker: "03 · Arhitektura",
+    kicker: "05 · Shared arhitektura",
     title: "Počni lokalno. Centralizuj tek ono što se ponavlja.",
     intro:
       "Za prvi projekat dovoljan je repo-local harness. Centralni registry, Promptfoo i MCP su dodatni slojevi — ne uslov da evali rade.",
@@ -301,10 +415,11 @@ export const srLatn = {
     rule: "source commit + eval bundle verzija + fixture verzija + runtime verzija = ponovljiv eval run.",
   },
   promptfoo: {
-    kicker: "04 · Promptfoo",
-    title: "Eksperimentalni sloj, ne WordPress grader",
+    kicker: "06 · Promptfoo",
+    title:
+      "Promptfoo poredi AI konfiguracije. WordPress alati dokazuju rezultat.",
     intro:
-      "Promptfoo pokreće matricu promptova, providera i test slučajeva, primenjuje assertions i poredi rezultate. Tvoji WordPress alati i dalje dokazuju da tema radi.",
+      "Promptfoo je open-source CLI i eval framework za pokretanje konfigurisanih kombinacija promptova, providera i test slučajeva. Postaje koristan kada imaš stabilan skup zadataka i stvarnu odluku o promptu, modelu, reasoning nivou ili agent runtime-u.",
     flowLabel: "Uloga Promptfoo-a u eval sistemu",
     inputs: ["prompt A", "prompt B", "model / agent"],
     coreOverline: "experiment runner",
@@ -313,6 +428,37 @@ export const srLatn = {
     resultOverline: "odluka",
     resultTitle: "baseline vs candidate",
     resultText: "kvalitet · cena · trajanje",
+    facts: [
+      {
+        title: "Pokreće matricu poređenja",
+        text: "Promptfoo kombinuje promptove, providere i test slučajeve, primenjuje assertions i čuva uporedive rezultate.",
+      },
+      {
+        title: "Provider je adapter",
+        text: "Za coding agenta, provider ili custom wrapper pokreće izolovani agent run i vraća strukturisan output.",
+      },
+      {
+        title: "Tvoj harness ostaje sudija proizvoda",
+        text: "PHPCS, PHPStan, Playwright, axe, fixtures i Lighthouse i dalje određuju da li WordPress rezultat radi.",
+      },
+    ],
+    quickstartTitle: "Probaj zvanični primer lokalno",
+    quickstartIntro:
+      "Primer kreira promptfooconfig.yaml, pokreće prompt/provider/test matricu i otvara lokalni pregled rezultata.",
+    quickstartAria: "Komande za lokalni Promptfoo quickstart",
+    localViewerTitle: "Lokalni pregled rezultata",
+    localViewerText:
+      "Pokreni `promptfoo view` da na svojoj mašini pregledaš outputs, assertions, failures, poređenja, komentare i grafikone.",
+    cloudTitle: "promptfoo.app",
+    cloudText:
+      "Cloud app je opciona. Koristi je samo kada su organization-private linkovi ili cloud funkcije primereni podacima projekta.",
+    gettingStartedLink: "Getting started",
+    viewerLink: "Dokumentacija za web viewer",
+    appLink: "Otvori promptfoo.app",
+    githubLink: "Promptfoo na GitHub-u",
+    controlledTitle: "Menjaj jednu promenljivu.",
+    controlledText:
+      "Zadrži iste zadatke, fixture reviziju, gradere i runtime; promeni prompt, model, reasoning ili agent runtime, ne nekoliko stvari odjednom. Ponovi reprezentativne nedeterminističke slučajeve i poredi cenu i trajanje uz pass rate.",
     yesLabel: "DA, kada…",
     yes: [
       "porediš dva prompta nad istim zadacima;",
@@ -331,11 +477,11 @@ export const srLatn = {
     cautionBefore: "Coding-agent eval pokreći u",
     cautionStrong: "disposable workspace-u",
     cautionAfter:
-      ", bez produkcionih kredencijala i stvarnih klijentskih podataka. Promptfoo dokumentacija izričito upozorava da coding agenti izvršavaju proizvoljan kod.",
+      ", bez produkcionih kredencijala, stvarnih klijentskih podataka i nepotrebnog pristupa mreži. Coding agenti izvršavaju proizvoljan kod; počni sa read-only pravima i dodaj samo mogućnosti koje case mora da proveri.",
     cautionLink: "Zvanični vodič za coding-agent evale",
   },
   mcp: {
-    kicker: "05 · MCP",
+    kicker: "07 · MCP",
     title: "MCP je pristupni sloj, ne test runner",
     intro:
       "MCP standardizuje kako AI aplikacija otkriva i poziva tools, čita resources i koristi prompts. Ne govori kako tvoj Playwright, WordPress ili CI treba da budu implementirani.",
@@ -359,10 +505,10 @@ export const srLatn = {
     sourceLink: "zvanični pregled MCP arhitekture",
   },
   setup: {
-    kicker: "06 · Minimalni setup",
-    title: "Uz source teme — ali ne u production ZIP-u",
+    kicker: "03 · Minimalni lokalni harness",
+    title: "Napravi dosadan lokalni harness pre bilo kakve centralizacije",
     intro:
-      "Repo je prava granica. Testovi ostaju vezani za commit teme, dok isporučeni ZIP sadrži samo runtime fajlove.",
+      "Drži ga u istom repou kao temu: pokreni poznato lokalno WordPress stanje, seeduj kontrolisan sadržaj, izvrši postojeće alate i ostavi koristan dokaz. Za ovo ti ne trebaju baza rezultata, dashboard, generički framework ni MCP server.",
     repoPanelTitle: "Preporučeni repo layout",
     repoPanelMeta: "project-repo/",
     repoAria: "Primer strukture repozitorijuma",
@@ -371,7 +517,8 @@ export const srLatn = {
     commandAria: "Primer npm eval komandi",
     commandCalloutBefore: "Agent tokom rada pokreće",
     commandCalloutMiddle: ", a pre završetka",
-    commandCalloutAfter: ".",
+    commandCalloutAfter:
+      ". Testovi ostaju uz source, ali ništa od ovoga ne ulazi u production ZIP teme.",
     examplesLabel: "Primeri eval konfiguracija",
     examples: {
       playwrightTitle: "Playwright: mobilni meni",
@@ -389,45 +536,51 @@ export const srLatn = {
     },
   },
   phases: {
-    kicker: "07 · Faze implementacije",
-    title: "Šest koraka, bez „framework projekta“",
+    kicker: "04 · Redosled za prvu nedelju",
+    title: "Sedam koraka od jednog kvara do pouzdane feedback petlje",
     intro:
-      "Svaka faza ostavlja nešto upotrebljivo. Ako se zaustaviš posle treće, već imaš vredan lokalni eval sistem.",
+      "Ne dodaj sve odjednom. Svaki korak treba da ostavi korisno poboljšanje koje može nezavisno da se pokrene.",
     items: [
       {
         number: "01",
-        title: "Jedan stvarni tok",
-        text: "Postavi Playwright smoke test za homepage i jedan kritičan flow, na primer mobilnu navigaciju.",
-        deliverable: "npm run eval:browser",
+        title: "Izaberi jedan vidljiv kvar",
+        text: "Odaberi kritičnu interakciju koju možeš opisati u jednoj rečenici: mobilni meni, search forma, modal ili drugo stvarno ponašanje teme.",
+        deliverable: "jedan acceptance kriterijum",
       },
       {
         number: "02",
-        title: "Brzi guardrails",
-        text: "Dodaj PHPCS/WPCS, PHPStan i postojeće JS/CSS lint komande. Ovaj sloj se pokreće često.",
-        deliverable: "npm run eval:fast",
+        title: "Zaključaj ulaz",
+        text: "Zapiši rutu, viewport, stanje korisnika i plugina, kao i WP-CLI fixture potreban za reprodukciju.",
+        deliverable: "fixture + okruženje",
       },
       {
         number: "03",
-        title: "Edge-case sadržaj",
-        text: "Uvedi WP-CLI fixture za dug naslov, prazna polja, neobičnu sliku i dugačak meni.",
-        deliverable: "tests/fixtures/",
+        title: "Napiši fokusirani browser case",
+        text: "Neka poznato pokvareno ponašanje padne uz precizan assertion i koristan trace ili screenshot.",
+        deliverable: "npm run eval:browser",
       },
       {
         number: "04",
-        title: "A11y i vizuelni dokaz",
-        text: "Dodaj axe na ključnim stanjima interfejsa i mali broj stabilnih screenshot baseline-a.",
-        deliverable: "npm run eval:full",
+        title: "Poveži brze provere",
+        text: "Kombinuj postojeći lint, PHPCS/WPCS i PHPStan u komandu koju agent često može da pokreće.",
+        deliverable: "npm run eval:fast",
       },
       {
         number: "05",
-        title: "CI kao kapija",
-        text: "Iste komande pokreni na pull requestu. Sačuvaj screenshot, trace i log kada test padne.",
-        deliverable: "evidence artifacts",
+        title: "Dodaj jedan problematičan sadržaj",
+        text: "Ponovi flow sa dugim labelom, praznim opcionim poljem, slikom koja nedostaje ili neprekinutim URL-om.",
+        deliverable: "tests/fixtures/",
       },
       {
         number: "06",
+        title: "Neka CI ponovi isti run",
+        text: "Koristi iste komande u pull request okruženju i sačuvaj relevantan log, screenshot, trace ili report.",
+        deliverable: "reviewable artifacts",
+      },
+      {
+        number: "07",
         title: "Promptfoo tek kad zatreba",
-        text: "Kada zaista porediš promptove, modele ili agente na više ponovljivih zadataka, dodaj eksperimentalni sloj.",
+        text: "Tek kada su task set i graderi stabilni, poredi jednu prompt, model, reasoning ili agent promenljivu.",
         deliverable: "baseline vs candidate",
       },
     ],
@@ -436,7 +589,7 @@ export const srLatn = {
       "izdvoji shared paket tek kada se isto pravilo ili helper ponovi na najmanje nekoliko stvarnih tema i razlika među projektima postane jasna.",
   },
   pitfalls: {
-    kicker: "08 · Zamke",
+    kicker: "09 · Zamke",
     title: "Kako eval sistem sam sebe pokvari",
     items: [
       {
@@ -465,27 +618,103 @@ export const srLatn = {
       },
     ],
   },
+  safety: {
+    kicker: "08 · Bezbednosne granice",
+    title: "Evaluator mora biti nezavisan, a test okruženje potrošno",
+    intro:
+      "Eval vredi samo ako mu je početno stanje kontrolisano, kriterijum ne može tiho da oslabi i agent sa pravom pisanja ne može da dosegne stvarne klijentske sisteme.",
+    items: [
+      {
+        title: "Resetuj samo izolovan test sajt",
+        text: "Zaštiti fixture komande proverom okruženja. Rekreiraj disposable bazu ili briši samo jasno označene fixture zapise; reset logika nikada ne sme da cilja staging ili produkciju.",
+      },
+      {
+        title: "Zaštiti kriterijum",
+        text: "Agent ne sme da menja testove, fixtures, očekivane rezultate, visual baselines, grader konfiguraciju ili eval komande u istom zadatku bez odvojenog review-a.",
+      },
+      {
+        title: "WordPress security ima svoj dokazni put",
+        text: "Proveri validation i sanitization, nonce i capability checks za mutacije, contextual escaping kroz esc_html/esc_attr/esc_url/wp_kses, dependencies i commitovane tajne.",
+      },
+      {
+        title: "Daj agentu minimalna prava",
+        text: "Koristi izolovanu radnu kopiju, lažne kredencijale, mock integracije, minimalno okruženje i bez mreže osim kada eval baš proverava tu mogućnost.",
+      },
+    ],
+    limitsTitle: "Šta automatski evali ne dokazuju",
+    limits: [
+      "axe ne dokazuje potpunu WCAG usklađenost; keyboard i screen-reader tokovi i dalje traže ručnu proveru.",
+      "Lighthouse lab budžet nije isto što i real-user Core Web Vitals field data.",
+      "PHPCS/WPCS i PHPStan ne dokazuju business logiku, autorizaciju ili renderovano ponašanje.",
+      "visual regression zahteva pinovan browser, OS, fontove i ljudski review namernih izmena.",
+    ],
+  },
   checklist: {
     kicker: "Praktičan starter",
-    title: "Prvih 10 evala za custom temu",
+    title: "Deset provera koje custom temi daju korisnu prvu sigurnosnu mrežu",
     intro:
-      "Počni ovde. Checklista je namerno mala i fokusirana na kvarove koje AI najlakše uvede, a postojeći alati jasno detektuju.",
+      "Počni sa prve tri na jednoj ruti, pa proširi kada fixture i lokalno okruženje postanu stabilni. Svaki fail treba da imenuje grader i ostavi dokaz koji developer može da pregleda.",
     resourcesCta: "Otvori zvanične resurse",
+    toolLabel: "Grader:",
+    evidenceLabel: "Dokaz:",
     items: [
-      "Tema se aktivira bez PHP fatal, warning i notice grešaka.",
-      "Homepage, single, archive, search i 404 vraćaju očekivan odgovor.",
-      "Mobilni meni radi tastaturom i Escape vraća fokus na trigger.",
-      "Nema horizontalnog overflowa na 320, 375, 768 i 1440 px.",
-      "Axe nema dogovorene blocking violations na ključnim stanjima.",
-      "Post bez featured slike i sa praznim opcionim poljima ne lomi layout.",
-      "Dug naslov i neprekinut URL ne izlaze iz sadržajnog kontejnera.",
-      "PHPCS/WPCS i PHPStan prolaze na dogovorenom nivou.",
-      "Ključni template-i prolaze odobrene visual regression baseline-e.",
-      "Full suite čuva jasan evidence artifact za svaki blocking fail.",
+      {
+        text: "Tema se aktivira bez dogovorenih PHP grešaka.",
+        tool: "WP-CLI aktivacija plus provera PHP error loga.",
+        evidence: "output komande, deo loga, WordPress i PHP verzije.",
+      },
+      {
+        text: "Osnovni template-i vraćaju i renderuju očekivani tip stranice.",
+        tool: "Playwright navigation smoke testovi.",
+        evidence: "URL, status, glavni landmark, screenshot i trace.",
+      },
+      {
+        text: "Mobilna navigacija radi tastaturom.",
+        tool: "Fokusirani Playwright interaction test.",
+        evidence: "assertion, viewport, fixture, trace i screenshot.",
+      },
+      {
+        text: "Podržani viewporti nemaju horizontalni overflow.",
+        tool: "Playwright DOM dimensions helper.",
+        evidence: "ruta, viewport, clientWidth, scrollWidth i screenshot.",
+      },
+      {
+        text: "Uobičajene mašinski detektabilne a11y regresije su blokirane.",
+        tool: "axe u odgovarajućim Playwright stanjima.",
+        evidence: "violation ID, impact, target selector i browser stanje.",
+      },
+      {
+        text: "Prazan opcioni sadržaj ne lomi layout.",
+        tool: "WP-CLI fixture plus Playwright.",
+        evidence: "fixture, ruta, screenshot i trace.",
+      },
+      {
+        text: "Dugi naslovi i neprekinuti URL-ovi ostaju u kontejneru.",
+        tool: "Problematičan fixture plus overflow assertion.",
+        evidence: "fixture payload, viewport, dimenzije i screenshot.",
+      },
+      {
+        text: "Statičke PHP provere prolaze sa commitovanom konfiguracijom.",
+        tool: "PHPCS/WPCS i PHPStan.",
+        evidence:
+          "izveštaj alata, revizija konfiguracije, tačan fajl i linija.",
+      },
+      {
+        text: "Odobreni ključni template-i nemaju neočekivan vizuelni drift.",
+        tool: "Playwright visual comparison.",
+        evidence:
+          "baseline revizija, actual/diff slike, verzije browsera i OS-a.",
+      },
+      {
+        text: "Full run ostavlja pregledan dokaz za svaki blocker.",
+        tool: "Projektni eval runner ili CI job.",
+        evidence:
+          "source commit, fixture revizija, runtime verzije i sačuvani artifacts.",
+      },
     ],
   },
   resources: {
-    kicker: "09 · Izvori",
+    kicker: "10 · Izvori",
     title: "Nastavi sa autoritativnim dokumentima",
     intro:
       "Linkovi vode ka zvaničnoj dokumentaciji i primarnim projektima. Proveri verzije alata i zahteve svog projekta pre implementacije.",
@@ -523,12 +752,28 @@ export const srLatn = {
         group: "AI eval sloj",
         links: [
           {
+            label: "Promptfoo getting started",
+            href: officialLinks.promptfooGettingStarted,
+          },
+          {
+            label: "Promptfoo lokalni web viewer",
+            href: officialLinks.promptfooViewer,
+          },
+          {
+            label: "Promptfoo Cloud app",
+            href: officialLinks.promptfooApp,
+          },
+          {
             label: "Promptfoo konfiguracija",
             href: officialLinks.promptfooConfig,
           },
           {
             label: "Promptfoo coding-agent evals",
             href: officialLinks.promptfooAgents,
+          },
+          {
+            label: "Promptfoo na GitHub-u",
+            href: officialLinks.promptfooGithub,
           },
           { label: "MCP arhitektura", href: officialLinks.mcp },
         ],

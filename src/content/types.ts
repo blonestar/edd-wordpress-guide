@@ -1,14 +1,7 @@
 export type LocaleCode = "en" | "sr-latn" | "sr-cyrl" | "be" | "ru";
 
 export type Tone =
-  | "mint"
-  | "violet"
-  | "amber"
-  | "blue"
-  | "coral"
-  | "pink"
-  | "green"
-  | "slate";
+  "mint" | "violet" | "amber" | "blue" | "coral" | "pink" | "green" | "slate";
 
 export interface ToolCopy {
   mark: string;
@@ -38,9 +31,9 @@ export interface GuideCopy {
   nav: {
     label: string;
     basics: string;
+    example: string;
     tools: string;
-    architecture: string;
-    start: string;
+    promptfoo: string;
     checklist: string;
   };
   languageMenu: {
@@ -74,6 +67,43 @@ export interface GuideCopy {
     cards: Array<{ letter: string; title: string; text: string }>;
     loopLabel: string;
     loop: Array<{ number: string; text: string }>;
+  };
+  glossary: {
+    kicker: string;
+    title: string;
+    intro: string;
+    analogyLabel: string;
+    items: Array<{
+      term: string;
+      definition: string;
+      analogy: string;
+    }>;
+  };
+  workedExample: {
+    kicker: string;
+    title: string;
+    intro: string;
+    scenarioLabel: string;
+    scenario: string;
+    steps: Array<{
+      number: string;
+      title: string;
+      text: string;
+      detail: string;
+    }>;
+    codeTitle: string;
+    codeMeta: string;
+    codeAria: string;
+    firstRunLabel: string;
+    firstRunTitle: string;
+    firstRunText: string;
+    finalRunLabel: string;
+    finalRunTitle: string;
+    finalRunText: string;
+    evidenceLabel: string;
+    evidence: string[];
+    takeawayLabel: string;
+    takeaway: string;
   };
   graders: {
     kicker: string;
@@ -139,6 +169,20 @@ export interface GuideCopy {
     resultOverline: string;
     resultTitle: string;
     resultText: string;
+    facts: Array<{ title: string; text: string }>;
+    quickstartTitle: string;
+    quickstartIntro: string;
+    quickstartAria: string;
+    localViewerTitle: string;
+    localViewerText: string;
+    cloudTitle: string;
+    cloudText: string;
+    gettingStartedLink: string;
+    viewerLink: string;
+    appLink: string;
+    githubLink: string;
+    controlledTitle: string;
+    controlledText: string;
     yesLabel: string;
     yes: string[];
     noLabel: string;
@@ -204,12 +248,26 @@ export interface GuideCopy {
     title: string;
     items: Array<{ title: string; fix: string }>;
   };
+  safety: {
+    kicker: string;
+    title: string;
+    intro: string;
+    items: Array<{ title: string; text: string }>;
+    limitsTitle: string;
+    limits: string[];
+  };
   checklist: {
     kicker: string;
     title: string;
     intro: string;
     resourcesCta: string;
-    items: string[];
+    toolLabel: string;
+    evidenceLabel: string;
+    items: Array<{
+      text: string;
+      tool: string;
+      evidence: string;
+    }>;
   };
   resources: {
     kicker: string;
