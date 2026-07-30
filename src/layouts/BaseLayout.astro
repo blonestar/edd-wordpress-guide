@@ -1,0 +1,63 @@
+---
+import "../styles/global.css";
+import type { GuideCopy } from "../content/types";
+
+interface LocaleLink {
+  code: string;
+  htmlLang: string;
+  name: string;
+  shortName: string;
+  href: string;
+  current: boolean;
+}
+
+interface Props {
+  copy: GuideCopy;
+  localeLinks: LocaleLink[];
+}
+
+const { copy, localeLinks } = Astro.props;
+const canonicalPath =
+  copy.locale === "en"
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}${copy.locale}/`;
+const canonical = Astro.site
+  ? new URL(canonicalPath, Astro.site).toString()
+  : canonicalPath;
+---
+
+<!doctype html>
+<html lang={copy.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="noindex" />
+    <meta name="googlebot" content="noindex" />
+    <meta name="description" content={copy.meta.description} />
+    <link rel="canonical" href={canonical} />
+    {
+      localeLinks.map((locale) => (
+        <link
+          rel="alternate"
+          hreflang={locale.htmlLang}
+          href={Astro.site ? new URL(locale.href, Astro.site).toString() : locale.href}
+        />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={
+        Astro.site
+          ? new URL(import.meta.env.BASE_URL, Astro.site).toString()
+          : import.meta.env.BASE_URL
+      }
+    />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="any" />
+    <title>{copy.meta.title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.next/
+.vinext/
+.wrangler/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+coverage/
+outputs/
+work/
+tsconfig.tsbuildinfo
